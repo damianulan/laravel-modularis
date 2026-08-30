@@ -1,0 +1,55 @@
+{
+  "name": "damianulan/laravel-modularis",
+  "type": "library",
+  "description": "Modularis laravel module manager",
+  "keywords": [
+    "laravel",
+    "modules",
+    "domains",
+    "ddd"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Damian Ułan",
+      "email": "damian.ulan@protonmail.com",
+      "homepage": "https://damianulan.me",
+      "role": "Developer"
+    }
+  ],
+  "require": {
+    "php": "^8.4",
+    "ext-json": "*",
+    "illuminate/support": "^11.0|^12.0|^13.0",
+    "mews/purifier": "^3.4"
+  },
+  "require-dev": {
+    "mockery/mockery": "^1.5",
+    "laravel/pint": "^1.0",
+    "phpunit/phpunit": "^11.0|^12.0|^13.0"
+  },
+  "suggest": {
+    "laravel/framework": "^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Modularis\\": "src"
+    },
+    "files": [
+      "src/helpers.php"
+    ]
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Modularis\\ModularisServiceProvider"
+      ],
+      "aliases": {
+        "Module": "Modularis\\Facades\\Module"
+      }
+    }
+  }
+}
