@@ -2,7 +2,9 @@
 
 namespace Modularis;
 
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\ServiceProvider;
+use Modularis\Repositories\FilesRepository;
 
 /**
  * @author Damian Ułan <damian.ulan@protonmail.com>
@@ -11,25 +13,17 @@ use Illuminate\Support\ServiceProvider;
  */
 class ModularisServiceProvider extends ServiceProvider
 {
-    /**
-     * Register the application services.
-     */
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/modularis.php', 'modularis');
+
+        $this->app->singleton(FilesRepository::class, fn () => new FilesRepository(new Filesystem()));
     }
 
-    /**
-     * When this method is apply we have all laravel providers and methods available
-     */
     public function boot(): void
     {
         $this->publishes([
             __DIR__ . '/../config/modularis.php' => config_path('modularis.php'),
-        ], 'modularis-config');
-
-        $this->publishes([
-            __DIR__ . '/../config/lucent.php' => config_path('modularis.php'),
         ], 'modularis');
 
         $this->registerCommands();

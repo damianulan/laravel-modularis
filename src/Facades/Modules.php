@@ -1,16 +1,16 @@
 <?php
 
-namespace Lucent;
+namespace Modula;
 
-use Illuminate\Support\Facades\Facade as BaseFacade;
+use Illuminate\Support\Facades\Facade;
 
-class Facade extends BaseFacade
+class Modules extends Facade
 {
     /**
      * Get the registered name of the component.
      */
     public static function getFacadeAccessor(): string
     {
-        return 'lucent';
+        return 'modules';
     }
 }
