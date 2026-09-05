@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Modularis\Commands\ClearCacheCommand;
 use Modularis\Repositories\FilesRepository;
 use Illuminate\Foundation\Application;
+use Modularis\Support\Transformers\FileDataTransformer;
 
 /**
  * @author Damian Ułan <damian.ulan@protonmail.com>
@@ -19,7 +20,7 @@ class ModularisServiceProvider extends ServiceProvider
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/modularis.php', 'modularis');
 
-        $this->app->singleton(FilesRepository::class, fn () => new FilesRepository(new Filesystem()));
+        $this->app->singleton(FilesRepository::class, fn () => new FilesRepository(new Filesystem, new FileDataTransformer));
         $this->app->singleton('modules', fn(Application $app) => $app->make(ModuleRegistry::class));
     }
 

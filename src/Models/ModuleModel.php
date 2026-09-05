@@ -28,7 +28,7 @@ class ModuleModel extends Model
         'active' => 'boolean'
     ];
 
-    public static function findBySlug(string $slug): ?self
+    public static function findBySlug(string $slug): ?static
     {
         return static::where('slug', $slug)->first();
     }

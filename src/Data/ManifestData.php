@@ -11,6 +11,7 @@ class ManifestData extends Data
         public string $name,
         public string $slug,
         public ModuleType $type,
+        public int $priority = 0,
         public string $provider,
         public ?string $description = null,
     ) {}

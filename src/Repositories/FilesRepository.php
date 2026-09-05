@@ -6,55 +6,51 @@ use Illuminate\Filesystem\Filesystem;
 use Modularis\Data\ComposerData;
 use Modularis\Data\ManifestData;
 use Modularis\Support\Transformers\FileDataTransformer;
-use Modularis\Module;
 
 class FilesRepository
 {
-    /** @var array<string, Module> */
-    protected array $modules = [];
-
     public function __construct(
         protected Filesystem $filesystem,
+        protected FileDataTransformer $transformer,
     ) {
-        $this->modules = $this->loadModules($this->filesystem->directories(modules_path()));
+        $this->loadModules($this->filesystem->directories(modules_path()));
     }
 
-    private function loadModules(array $paths): array
+    /** @var array<string, array> */
+    protected array $modules = [];
+
+    private function loadModules(array $paths): void
     {
-        $modules = [];
+        $transformer = $this->transformer;
         foreach ($paths as $path) {
-            $composer = $this->getComposerJson($path);
-            $manifest = $this->getManifestJson($path);
-            $slug = $manifest['slug'];
+            $composer = $this->getComposerData($path);
+            $manifest = $this->getManifestData($path);
+            $slug = $manifest->slug;
 
-            $modules[$slug] = [
-                'composer' => $composer,
-                'manifest' => $manifest,
-            ];
+            $this->modules[$slug] = $transformer($composer, $manifest);
         }
-
-        return $modules;
     }
     private function getComposerData(string $path): ComposerData
     {
-        return ComposerData::from(...$this->getComposerJson($path));
+        return ComposerData::from($this->getComposerJson($path));
     }
 
         private function getManifestData(string $path): ManifestData
     {
-        return ManifestData::from(...$this->getManifestJson($path));
+        return ManifestData::from($this->getManifestJson($path));
     }
 
     private function getComposerJson(string $path): array
     {
-        return json_decode($this->filesystem->get($path . '/composer.json'), true);
+        return json_decode($this->filesystem->get($path . '/composer.json'), true, 512, JSON_OBJECT_AS_ARRAY);
     }
 
     private function getManifestJson(string $path): array
     {
-        return json_decode($this->filesystem->get($path . '/manifest.json'), true);
+        return json_decode($this->filesystem->get($path . '/manifest.json'), true, 512, JSON_OBJECT_AS_ARRAY);
     }
 
+    /** @return array<string, array> */
     public function getModulesInfo(): array
     {
         return $this->modules;
