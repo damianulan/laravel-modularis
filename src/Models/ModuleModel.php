@@ -3,24 +3,18 @@
 namespace Modularis\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Modularis\Contracts\ModuleModelContract;
 use Modularis\Enums\ModuleType;
-use Spatie\Translatable\HasTranslations;
 
-class ModuleModel extends Model
+class ModuleModel extends Model implements ModuleModelContract
 {
-    use HasTranslations;
-
     protected $table = 'modules';
 
-    public array $translatable = ['name', 'description'];
-
     protected $fillable = [
-        'name',
         'slug',
-        'type',
-        'description',
-        'active',
-        'version'
+        'display_order',
+        'version',
+        'active'
     ];
 
     protected $casts = [
@@ -31,5 +25,25 @@ class ModuleModel extends Model
     public static function findBySlug(string $slug): ?static
     {
         return static::where('slug', $slug)->first();
+    }
+
+    public function getSlug(): string
+    {
+        return $this->getAttribute('slug');
+    }
+
+    public function getDisplayOrder(): int
+    {
+        return $this->getAttribute('display_order');
+    }
+
+    public function getVersion(): string
+    {
+        return $this->getAttribute('version');
+    }
+
+    public function isActive(): bool
+    {
+        return $this->getAttribute('active');
     }
 }

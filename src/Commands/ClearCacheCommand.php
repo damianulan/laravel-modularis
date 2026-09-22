@@ -7,7 +7,7 @@ use Modularis\Repositories\ModulesCacheRepository;
 
 class ClearCacheCommand extends Command
 {
-    protected $signature = 'modularis:cache-clear';
+    protected $signature = 'modularis:cache';
 
     protected $description = 'Clear the Modularis cache';
 

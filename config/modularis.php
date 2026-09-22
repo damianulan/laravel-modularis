@@ -2,6 +2,8 @@
 
 return [
 
+    'model' => \Modularis\Models\ModuleModel::class,
+
     'cache' => [
         'enabled' => env('MODULARIS_CACHE_ENABLED', true),
         'prefix' => 'modularis_cache',

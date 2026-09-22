@@ -26,8 +26,18 @@ class ModulesCacheRepository
         $this->getCacheDriver()->put(config('modularis.cache.prefix'), $value, config('modularis.cache.expire_after'));
     }
 
+    public function get(): array
+    {
+        return $this->getCacheDriver()->get(config('modularis.cache.prefix'));
+    }
+
     public function clear(): bool
     {
         return $this->getCacheDriver()->forget(config('modularis.cache.prefix'));
+    }
+
+    public function exists(): bool
+    {
+        return $this->getCacheDriver()->has(config('modularis.cache.prefix'));
     }
 }

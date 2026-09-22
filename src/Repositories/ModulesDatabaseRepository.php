@@ -2,9 +2,8 @@
 
 namespace Modularis\Repositories;
 
+use Modularis\Contracts\ModuleModelContract;
 use Modularis\Models\ModuleModel;
-use Modularis\Module;
-
 class ModulesDatabaseRepository
 {
     public function __construct(
@@ -13,20 +12,17 @@ class ModulesDatabaseRepository
 
     }
 
-    public function getOrCreate(Module $module): ModuleModel
+    public function getOrCreate(array $attributes): ModuleModelContract
     {
         return ModuleModel::firstOrCreate(
-            ['slug' => $module->getSlug()],
+            ['slug' => $attributes['slug']],
             [
-                'name' => $module->getName(),
-                'type' => $module->getType(),
-                'description' => $module->getDescription(),
-                'version' => $module->getVersion()
+                'version' => $attributes['version'],
             ]
         );
     }
 
-    public function get(string $slug): ?ModuleModel
+    public function get(string $slug): ?ModuleModelContract
     {
         return ModuleModel::where('slug', $slug)->first();
     }

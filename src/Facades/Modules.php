@@ -1,6 +1,6 @@
 <?php
 
-namespace Modula;
+namespace Modularis\Facades;
 
 use Illuminate\Support\Facades\Facade;
 

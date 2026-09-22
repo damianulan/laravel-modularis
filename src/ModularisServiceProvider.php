@@ -47,6 +47,11 @@ class ModularisServiceProvider extends ServiceProvider
             $this->commands([
                 ClearCacheCommand::class,
             ]);
+
+            $this->optimizes(
+                clear: ClearCacheCommand::class,
+                key: 'modularis',
+            );
         }
     }
 

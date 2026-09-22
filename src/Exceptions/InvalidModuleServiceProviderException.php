@@ -2,13 +2,18 @@
 
 namespace Modularis\Exceptions;
 
-use InvalidArgumentException;
+use Exception;
 use Modularis\Support\Providers\ModuleServiceProvider;
+use Throwable;
 
-final class InvalidModuleServiceProviderException extends InvalidArgumentException
+final class InvalidModuleServiceProviderException extends Exception
 {
-    public static function forModule(string $slug): self
+    public function __construct(string $slug, ?Throwable $previous = null)
     {
-        return new self("The service provider for module [{$slug}] must extend " . ModuleServiceProvider::class . '.');
+        parent::__construct(
+            "The service provider for module [{$slug}] must extend " . ModuleServiceProvider::class . '.',
+            0,
+            $previous
+        );
     }
 }
