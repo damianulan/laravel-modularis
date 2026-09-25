@@ -2,6 +2,7 @@
 
 namespace Modularis\Support;
 
+use Modularis\Enums\ModuleType;
 use Modularis\Exceptions\InvalidModuleServiceProviderException;
 use Modularis\Module;
 use Modularis\ModulesCollection;
@@ -59,6 +60,7 @@ class ModulesAggregator
             $slug = $attributes['slug'];
             $name = $attributes['name'];
             $description = $attributes['description'];
+            $type = $attributes['type'];
 
             if (is_string($name)) {
                 $name = [config('app.locale') => $name];
@@ -66,6 +68,10 @@ class ModulesAggregator
 
             if (is_string($description)) {
                 $description = [config('app.locale') => $description];
+            }
+
+            if (is_string($type)) {
+                $type = ModuleType::from($type);
             }
 
             if (
@@ -77,7 +83,7 @@ class ModulesAggregator
 
             $this->modules->put($slug, new Module(
                 $slug,
-                $attributes['type'],
+                $type,
                 $name,
                 $description,
                 $attributes['priority'],
@@ -101,6 +107,6 @@ class ModulesAggregator
 
     public function getModules(): ModulesCollection
     {
-        return collect($this->modules);
+        return $this->modules;
     }
 }
