@@ -2,8 +2,6 @@
 
 namespace Modularis;
 
-use DateTime;
-
 class ProvidersLoader
 {
     public static function load(): array
